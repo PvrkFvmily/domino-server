@@ -3,7 +3,7 @@ const mongoose = require("mongoose")
 require('dotenv').config()
 
 
-const dbName = 'mernAuth'
+const dbName = 'project3db'
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1/' + dbName
 
 mongoose.connect(MONGODB_URI)
@@ -21,5 +21,6 @@ db.on('error',  err => {
 
 
 module.exports = {
-  User: require('./User')
+  User: require('./User'),
+  Post: require('./Post')
 }
