@@ -5,9 +5,18 @@ let db = require('./models')
 const postCRUD = async () => { 
     try {
         // create a new user or find the user (who will be in local storage)
-        const newUser = await db.User.findOne({
-            name: 'Billy John'
-        })
+        // const newUser = await db.User.findOne({
+        //     name: 'Billy John'
+        // })
+
+        // const newUser = await db.User.findOne({
+        //     name: 'Short Jerry'
+        // }).populate('posts')
+        // const newPost = await db.Post.findOne({
+        //     title: 'The life of being incrediblely tall'
+        // }, populate('user'))
+        // newUser.posts.push(newPost)
+        // newUser.save()
         // console.log(newUser)
         ////// READ POST //////
         // const findPosts = await db.Post.findOne({})
@@ -20,9 +29,9 @@ const postCRUD = async () => {
         //     // we would have:
         //     // user: req.body.user (or it will be a hidden input in the form)
         // })
-        const newPost = await db.Post.findOne({
-            user: newUser._id
-        }).populate('user')
+        // const newPost = await db.Post.findOne({
+        //     user: newUser._id
+        // }).populate('user')
         // likely we will not have to do this, as the user._id will be in local storage
         // newPost.user = newUser._id
         // await newPost.save()
