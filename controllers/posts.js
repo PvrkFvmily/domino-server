@@ -60,12 +60,14 @@ router.put('/:id', async (req, res) => {
         //grab the id from the url 
         //get data to update in req.body
         const updatedPost = await db.Post.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        //if the post is not found, send a status message of 404 
         if (!updatedPost) {
             if(!post) {
                 res.status(404).json({ msg: `Post not found` })
                 return //won't send headers twice/ won't crash nodemon
             }
         }
+        //parses JSON data and converts to javascript object that can be manipulated
         res.json(updatedPost)
     } catch (error) {
         console.log(`${err}`)
