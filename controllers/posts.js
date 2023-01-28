@@ -44,13 +44,14 @@ router.get('/:id', async (req, res) => {
 //POST /posts create a new psot
 router.post('/', async(req, res) => {
     try{
-        // const authHeader = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidG9ieSBrZWl0aCIsImVtYWlsIjoidEBiIiwiaWQiOiI2M2QxYjM0NmM5OTkxYTE1ZDc3YTRlZTIiLCJpYXQiOjE2NzQ2ODgwOTgsImV4cCI6MTY3NDY5MTY5OH0.l1Ko8OVmzFrrS25H_iZwkveNV-qmH0MjVdjry3wPIEc' /*req.headers.authorization*/
-        // const decode = await jwt.verify(authHeader, process.env.JWT_SECRET)
+        const authHeader = req.headers.authorization
+        const decode = await jwt.verify(authHeader, process.env.JWT_SECRET)
         // const foundUser = await db.User.findById(decode.id)
+        // console.log(decode)
 
         // get user info from local storage jwt
         const post = await db.Post.create({
-            user: '63d492c44bc6fd2d0d5bb882',
+            user: decode.id,
             title: req.body.title,
             content: req.body.content
         })
