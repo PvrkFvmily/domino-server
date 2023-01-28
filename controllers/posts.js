@@ -98,9 +98,11 @@ router.delete('/:id', async (req, res) =>{
 
 router.post('/:id/comments', async (req, res) => {
     try {
-        //     {$push: {comments: {content: 'Screw all these other commenters', user: newUser.name}}},
+        // Stores Post id 
         const postId = req.params.id
+        // Finds post by id and looks into the array of comments and pushes into the comment subdoc array.
         const newComment = await db.Post.findByIdAndUpdate(postId,{$push:{comments:req.body}},{upsert: true, new: true})
+        // if comment not found it shows a 404 (not foun error)
         if(!newComment){
             res.status(404).json({msg:"Post is not found"})
             return
