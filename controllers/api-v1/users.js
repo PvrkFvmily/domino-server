@@ -96,4 +96,20 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
   res.json( { msg: 'welcome to the private route!' })
 })
 
+router.get('/:id', async (req, res) => {
+  try {
+    const foundUser = await db.User.findById(req.params.id)
+      if(!foundUser) {
+        res.status(404).json({ msg: 'user not found' })
+        return
+      }
+    res.json(foundUser)
+
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({ msg: 'server error' })
+  }
+
+})
+
 module.exports = router
