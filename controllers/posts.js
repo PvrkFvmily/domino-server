@@ -2,14 +2,20 @@ const router = require('express').Router()
 const db = require ('../models')
 const jwt = require('jsonwebtoken')
 
-
+/// Theo _____________________________________________
 // GET /posts -- respond with all posts 
 router.get('/', async (req, res) => {
+    // so this means that we are gonna try something and if it fails, maybe someone will catch it or something
     try{
+        // so here we are creating an unchangable variable, but it could be a mutable variable (as if it were an array or object that we can pop and push things into or out of respectively)
         const posts = await db.Post.find({})
+        // here we are sending a request through the res function object, standing for resquest, otherwise meaning a response from the server to the client
         res.json(posts)
+    // oh shoot we got this thing catching an 'err'? what is that?
     }catch(err) {
+        // money sign err ?? what is this?
         console.log(`${err}`)
+        // so here we are sending a status of 500, which means that there is no issue and continue on as though nothing had changed.
         res.status(500).json({ msg: 'server error 1'})
     }
 })
@@ -33,6 +39,7 @@ router.get('/:id', async (req, res) => {
         res.status(500).json({ msg: 'Server Error 2'})
     }
 })
+// __________________________________________________ T END
 
 //POST /posts create a new psot
 router.post('/', async(req, res) => {
