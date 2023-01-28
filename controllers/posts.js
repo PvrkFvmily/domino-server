@@ -103,6 +103,7 @@ router.post('/:id/comments', async (req, res) => {
         const newComment = await db.Post.findByIdAndUpdate(postId,{$push:{comments:req.body}},{upsert: true, new: true})
         if(!newComment){
             res.status(404).json({msg:"Post is not found"})
+            return
         }
         res.json(newComment)
     } catch(err) {
@@ -116,6 +117,7 @@ router.put('/:id/comment/:idx', async (req, res) => {
         const findPost = await db.Post.findById(req.params.id)
         if (!findPost) {
             res.status(404).json({msg: "Post is not found"})
+            return
         }
         const editComment = findPost.comments.id(req.params.idx)
         editComment.content = req.body.content
@@ -128,6 +130,31 @@ router.put('/:id/comment/:idx', async (req, res) => {
         } else{
             res.status(500).json({msg: "Internal Server Error, Please contact the System Admnistrator"})
         }
+    }
+})
+
+router.delete('/:id/comment/:idx', async (req, res) => {
+    try {
+        // this find a post
+        const findPost = await db.Post.findById(req.params.id)
+        if(!findPost) {
+            res.status(404).json({ msg: "Post not found"})
+            return
+        }
+        // Goes to the subdoc of findPost to get specific comment
+        const deleteComment = findPost.comments.id(req.params.idx)
+        // .remove() is a subdoc instance method. (causes to self destruct)
+        deleteComment.remove()
+        // save the parent doc
+        await findPost.save()
+        res.json(findPost)
+    } catch(err) {
+        console.log(err)
+        if(err.kind === "ObjectId") {
+            res.status(404).json({msg: err.message})
+        } else{
+            res.status(500).json({msg: "Internal Server Error, Please contact the System Admnistrator"})
+        } 
     }
 })
 
