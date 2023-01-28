@@ -74,5 +74,41 @@ router.put('/:id', async (req, res) => {
 })
 
 //DELETE /posts/:id -- deletes a post @ id
+router.delete('/:id', async (req, res) =>{
+    try{
+        // get the post id from the url, and destroy that id (post)
+        const deletedPost = await db.Post.findByIdAndDelete(req.params.id)
+        if(!deletedPost) {
+            res.status(404).json({message: 'Sad, post not found'})
+            return // don't want to send headers twice, stop the function
+        }
+        // send a status of 204 (no content) and nothing else 
+        res.sendStatus(204)
+    }catch(err) {
+        console.log(err)
+        if(err.kind === "ObjectId") {
+            res.status(404).json({msg: err.message})
+        } else{
+            res.status(500).json({msg: "Internal Server Error, Please contact the System Admnistrator"})
+        }
+    }
+})
+
+//POST /posts/:id/comments -- creates a comment
+
+router.post('/:id/comments', async (req, res) => {
+    try {
+        //     {$push: {comments: {content: 'Screw all these other commenters', user: newUser.name}}},
+        const postId = req.params.id
+        const newComment = await db.Post.findByIdAndUpdate(postId,{$push:{comments:req.body}},{upsert: true, new: true})
+        if(!newComment){
+            res.status(404).json({msg:"Post is not found"})
+        }
+        res.json(newComment)
+    } catch(err) {
+        console.log(err)
+        res.status(500).json({message: "Internal Server Error, Contact the System Administrator"})
+    }
+})
 
 module.exports = router
