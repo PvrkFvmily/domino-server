@@ -111,4 +111,24 @@ router.post('/:id/comments', async (req, res) => {
     }
 })
 
+router.put('/:id/comment/:idx', async (req, res) => {
+    try {
+        const findPost = await db.Post.findById(req.params.id)
+        if (!findPost) {
+            res.status(404).json({msg: "Post is not found"})
+        }
+        const editComment = findPost.comments.id(req.params.idx)
+        editComment.content = req.body.content
+        await findPost.save()
+        res.json(findPost)
+    } catch(err) {
+        console.log(err)
+        if(err.kind === "ObjectId") {
+            res.status(404).json({msg: err.message})
+        } else{
+            res.status(500).json({msg: "Internal Server Error, Please contact the System Admnistrator"})
+        }
+    }
+})
+
 module.exports = router
