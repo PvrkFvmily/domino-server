@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         //look up a specific post using id
-        const post = await db.Post.findById(req.params.id)
+        const post = await db.Post.findById(req.params.id).populate('user')
 
         //if the post is not found 
         if(!post) {
