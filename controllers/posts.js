@@ -44,7 +44,8 @@ router.get('/:id', async (req, res) => {
 //POST /posts create a new psot
 router.post('/', async(req, res) => {
     try{
-        const authHeader = req.headers.authorization
+        // AUTHHEADER NEEDS TO CHANGE LATER
+        const authHeader = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdFVzZXIiLCJlbWFpbCI6IndAYiIsImlkIjoiNjNkNWIyZTA3OTZhN2IyMTBiOWQ2MDg4IiwiaWF0IjoxNjc0OTQ5MzQ0fQ.Z1Lme33D2k-HbDPxoZb0LRS2elaR4ExwvaC_MDEFLio"
         const decode = await jwt.verify(authHeader, process.env.JWT_SECRET)
         // const foundUser = await db.User.findById(decode.id)
         // console.log(decode)
@@ -124,6 +125,7 @@ router.post('/:id/comments', async (req, res) => {
     }
 })
 
+// Daniel ________________________________________
 // UPDATE post/:id/comment/:idx
 router.put('/:id/comment/:idx', async (req, res) => {
     try {
@@ -175,5 +177,7 @@ router.delete('/:id/comment/:idx', async (req, res) => {
         } 
     }
 })
+
+// _____________________________________________DP
 
 module.exports = router
