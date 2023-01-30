@@ -98,7 +98,7 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 
 router.get('/:id', async (req, res) => {
   try {
-    const foundUser = await db.User.findById(req.params.id)
+    const foundUser = await db.User.findById(req.params.id).populate('posts')
       if(!foundUser) {
         res.status(404).json({ msg: 'user not found' })
         return

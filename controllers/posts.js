@@ -50,6 +50,13 @@ router.post('/', async(req, res) => {
             title: req.body.title,
             content: req.body.content
         })
+        // Daniel ________________________________________
+        // finds a user and puts it into an array of the user's post array
+        const findUser = await db.User.findById(req.body.user)
+        // console.log(appendUser)
+        findUser.posts.push(post)
+        await findUser.save()
+        // _____________________________________________DP
         res.status(201).json(post)
     }catch(err) {
         console.log(`${err}`)
