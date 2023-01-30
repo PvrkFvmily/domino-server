@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try{
         //look up a specific post using id
-        const post = await db.Post.findById(req.params.id)
+        const post = await db.Post.findById(req.params.id).populate('user')
 
         //if the post is not found 
         if(!post) {
@@ -44,15 +44,18 @@ router.get('/:id', async (req, res) => {
 //POST /posts create a new psot
 router.post('/', async(req, res) => {
     try{
+<<<<<<< HEAD
         // AUTHHEADER NEEDS TO CHANGE LATER
         const authHeader = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGVzdFVzZXIiLCJlbWFpbCI6IndAYiIsImlkIjoiNjNkNWIyZTA3OTZhN2IyMTBiOWQ2MDg4IiwiaWF0IjoxNjc0OTQ5MzQ0fQ.Z1Lme33D2k-HbDPxoZb0LRS2elaR4ExwvaC_MDEFLio"
         const decode = await jwt.verify(authHeader, process.env.JWT_SECRET)
         // const foundUser = await db.User.findById(decode.id)
         // console.log(decode)
 
+=======
+>>>>>>> main
         // get user info from local storage jwt
         const post = await db.Post.create({
-            user: decode.id,
+            user: req.body.user,
             title: req.body.title,
             content: req.body.content
         })
