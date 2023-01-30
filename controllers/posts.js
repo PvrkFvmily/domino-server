@@ -44,16 +44,9 @@ router.get('/:id', async (req, res) => {
 //POST /posts create a new psot
 router.post('/', async(req, res) => {
     try{
-        //authorization used to provide credentials that authenticate a user with a server
-        const authHeader = req.query //req.headers.authorization 
-        //decoding token retrieved from client to get currently logged in user's info
-        const decode = await jwt.toString().verify(authHeader, process.env.JWT_SECRET)
-        // const foundUser = await db.User.findById(decode.id)
-        // console.log(decode)
-
         // get user info from local storage jwt
         const post = await db.Post.create({
-            user: decode.id,
+            user: req.body.user,
             title: req.body.title,
             content: req.body.content
         })
