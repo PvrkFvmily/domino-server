@@ -99,6 +99,7 @@ router.get('/auth-locked', authLockedRoute, (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const foundUser = await db.User.findById(req.params.id).populate('posts')
+    // console.log(foundUser)
       if(!foundUser) {
         res.status(404).json({ msg: 'user not found' })
         return
@@ -112,4 +113,14 @@ router.get('/:id', async (req, res) => {
 
 })
 
+router.delete('/:id', async (req, res) => {
+  try {
+    await db.User.findByIdAndDelete(req.params.id)
+    await db.Post.deleteMany({ user: req.params.id })
+    res.sendStatus(204)
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({ msg: 'server error' })
+  }
+})
 module.exports = router
