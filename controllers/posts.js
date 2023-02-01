@@ -80,7 +80,7 @@ router.put('/:id', async (req, res) => {
         //parses JSON data and converts to javascript object that can be manipulated
         res.json(updatedPost)
     } catch (error) {
-        console.log(`${err}`)
+        console.log(`${error}`)
         res.status(500).json({ msg: 'Server Error 4'})
     }
 })
@@ -126,6 +126,7 @@ router.post('/:id/comments', async (req, res) => {
     }
 })
 
+// Daniel ________________________________________
 // UPDATE post/:id/comment/:idx
 router.put('/:id/comment/:idx', async (req, res) => {
     try {
@@ -177,5 +178,7 @@ router.delete('/:id/comment/:idx', async (req, res) => {
         } 
     }
 })
+
+// _____________________________________________DP
 
 module.exports = router
