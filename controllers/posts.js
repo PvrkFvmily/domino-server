@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     // so this means that we are gonna try something and if it fails, maybe someone will catch it or something
     try{
         // so here we are creating an unchangable variable, but it could be a mutable variable (as if it were an array or object that we can pop and push things into or out of respectively)
-        const posts = await db.Post.find({}).populate('user')
+        const posts = await db.Post.find({}).populate('user').sort({ createdAt: 'desc' })
         // here we are sending a request through the res function object, standing for resquest, otherwise meaning a response from the server to the client
         res.json(posts)
     // oh shoot we got this thing catching an 'err'? what is that?
